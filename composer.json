@@ -33,7 +33,7 @@
         "illuminate/filesystem": "^9.37",
         "illuminate/support": "^9.37",
         "illuminate/validation": "^9.37",
-        "io3x1/laravel-splade": "^1.0"
+        "tomatophp/laravel-splade": "^1.0"
     },
     "conflict": {
         "laravel/framework": "<9.37.0"
