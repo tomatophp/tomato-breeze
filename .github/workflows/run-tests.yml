@@ -1,0 +1,83 @@
+name: run-tests
+
+on: [push, pull_request]
+
+jobs:
+  stub-tests:
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: true
+      matrix:
+        php: [8.2, 8.1, 8.0]
+        laravel: [9.*]
+        dependency-version: [prefer-lowest, prefer-stable]
+
+    name: Test Stubs ${{ matrix.os }} - P${{ matrix.php }} - L${{ matrix.laravel }} - ${{ matrix.dependency-version }}
+
+    steps:
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv, imagick, mysql, mysqli, pdo_mysql, fileinfo
+          coverage: none
+
+      - name: Setup Laravel
+        run: |
+          composer create-project laravel/laravel:^9.3 .
+          composer require protonemedia/laravel-splade-breeze
+
+      - name: Remove installed Breeze (Unix)
+        run: rm -rf vendor/protonemedia/laravel-splade-breeze
+        if: matrix.os == 'ubuntu-latest'
+
+      - name: Remove installed Breeze (Windows)
+        run: rd "vendor/protonemedia/laravel-splade-breeze" /s /q
+        shell: cmd
+        if: matrix.os == 'windows-latest'
+
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          path: "vendor/protonemedia/laravel-splade-breeze"
+
+      - name: Install Breeze and Setup Dusk environment
+        run: |
+          composer dump
+          php artisan breeze:install
+          php artisan dusk:chrome-driver `/opt/google/chrome/chrome --version | cut -d " " -f3 | cut -d "." -f1`
+
+      - name: Start Chrome Driver
+        run: ./vendor/laravel/dusk/bin/chromedriver-linux &
+
+      - name: Run Laravel Server
+        run: php artisan serve &
+
+      - name: Run Dusk Tests
+        uses: nick-invision/retry@v2
+        with:
+          timeout_minutes: 5
+          max_attempts: 3
+          command: php artisan dusk --env=dusk
+
+      - name: Upload Dusk Screenshots
+        if: failure()
+        uses: actions/upload-artifact@v3
+        with:
+          name: screenshots
+          path: tests/Browser/screenshots
+
+      - name: Upload Console Logs
+        if: failure()
+        uses: actions/upload-artifact@v3
+        with:
+          name: console
+          path: tests/Browser/console
+
+      - name: Upload Laravel Logs
+        if: failure()
+        uses: actions/upload-artifact@v3
+        with:
+          name: logs
+          path: storage/logs
