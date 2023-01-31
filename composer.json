@@ -1,6 +1,6 @@
 {
     "name": "tomatophp/tomato-breeze",
-    "description": "Laravel Breeze starter kit for Splade build with RTL/Dark\nfor TomatoPHP",
+    "description": "Laravel Breeze starter kit for Splade build with RTL/Dark for TomatoPHP",
     "keywords": [
         "laravel",
         "auth",
