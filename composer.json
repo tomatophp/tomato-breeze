@@ -9,8 +9,8 @@
     ],
     "license": "MIT",
     "support": {
-        "issues": "https://github.com/queents/tomato-breeze/issues",
-        "source": "https://github.com/queents/tomato-breeze"
+        "issues": "https://github.com/tomatophp/tomato-breeze/issues",
+        "source": "https://github.com/tomatophp/tomato-breeze"
     },
     "authors": [
         {
@@ -33,7 +33,7 @@
         "illuminate/filesystem": "^9.37",
         "illuminate/support": "^9.37",
         "illuminate/validation": "^9.37",
-        "tomatophp/laravel-splade": "^1.0"
+        "tomatophp/tomato-splade": "^1.0"
     },
     "conflict": {
         "laravel/framework": "<9.37.0"
