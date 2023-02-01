@@ -29,7 +29,7 @@ class BreezeServiceProvider extends ServiceProvider implements DeferrableProvide
         }
 
         $this->commands([
-            Laravel\Breeze\Console\InstallCommand::class,
+            \Laravel\Breeze\Console\InstallCommand::class,
         ]);
     }
 
@@ -40,6 +40,6 @@ class BreezeServiceProvider extends ServiceProvider implements DeferrableProvide
      */
     public function provides()
     {
-        return [Laravel\Breeze\Console\InstallCommand::class];
+        return [\Laravel\Breeze\Console\InstallCommand::class];
     }
 }
