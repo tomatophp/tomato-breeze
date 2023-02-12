@@ -17,7 +17,7 @@ composer require tomatophp/tomato-breeze
 
 ## Support
 
-you can join our discord server to get support [TomatoPHP](https://discord.gg/Xqmt35Uh)
+you can join our discord server to get support [TomatoPHP](https://discord.gg/VZc8nBJ3ZU)
 
 ## Changelog
 
